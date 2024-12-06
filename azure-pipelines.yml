@@ -14,4 +14,5 @@ steps:
   - script: |
       echo "Hello, World!"
       ls -hl
+      curl ifconfig.io
     displayName: 'Print Hello World and List Directory'
