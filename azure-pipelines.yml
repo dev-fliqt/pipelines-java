@@ -15,4 +15,5 @@ steps:
       echo "Hello, World!"
       ls -hl
       curl ifconfig.io
+      cat /etc/os-release
     displayName: 'Print Hello World and List Directory'
