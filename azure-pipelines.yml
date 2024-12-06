@@ -11,5 +11,7 @@ pool:
   # vmImage: ubuntu-latest
 
 steps:
-  - script: echo "Hello, World!"
-    displayName: 'Print Hello World'
+  - script: |
+      echo "Hello, World!"
+      ls -hl
+    displayName: 'Print Hello World and List Directory'
