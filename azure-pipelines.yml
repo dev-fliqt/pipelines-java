@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: fliQt
+  name: ci-pools
   # vmImage: ubuntu-latest
 
 steps:
