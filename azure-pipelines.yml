@@ -13,7 +13,16 @@ pool:
 steps:
   - script: |
       echo "Hello, World!"
+    displayName: 'Print Hello World'
+
+  - script: |
       ls -hl
-      curl ifconfig.io
-      cat /etc/os-release
     displayName: 'Print Hello World and List Directory'
+
+  - script: |
+      curl -s ifconfig.io
+    displayName: 'Get Egress IP Address'
+
+  - script: |
+      cat /etc/os-release
+    displayName: 'Get OS Info'
