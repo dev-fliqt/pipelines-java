@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: ci-pools
+  name: ci-agents
   # vmImage: ubuntu-latest
 
 steps:
@@ -17,7 +17,7 @@ steps:
 
   - script: |
       ls -hl
-    displayName: 'Print Hello World and List Directory'
+    displayName: 'List Directory'
 
   - script: |
       curl -s ifconfig.io
