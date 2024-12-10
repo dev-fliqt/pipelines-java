@@ -16,7 +16,8 @@ pool:
   # vmImage: ubuntu-latest
 
 stages:
-  - stage: Check Directory Struct
+  - stage: check
+    displayName: Check Directory Struct
     jobs:
       - job:
         steps:
@@ -29,7 +30,8 @@ stages:
             ls -hl
           displayName: 'List Directory'
 
-  - stage: Check agent egress IP
+  - stage: check2
+    displayName: Check agent egress IP
     jobs:
       - job:
         steps:
@@ -37,7 +39,8 @@ stages:
             curl -s ifconfig.io
           displayName: 'Get Egress IP Address'
   
-  - stage: Check OS info
+  - stage: check3
+    displayName: Check OS info
     jobs:
       - job:
         steps:
