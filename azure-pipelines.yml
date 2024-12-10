@@ -6,23 +6,41 @@
 trigger:
 - main
 
+resources:
+  containers:
+    - container: cloud-tools
+      image: diver.azurecr.io/internal/docker-kubectl:v1.0
+
 pool:
   name: ci-agents
   # vmImage: ubuntu-latest
 
-steps:
-  - script: |
-      echo "Hello, World!"
-    displayName: 'Print Hello World'
+stages:
+  - stage: Check Directory Struct
+    jobs:
+      - job:
+        steps:
+        - script: |
+            echo "Hello, World!"
+          displayName: 'Print Hello World'
+      - job:
+        steps:
+        - script: |
+            ls -hl
+          displayName: 'List Directory'
 
-  - script: |
-      ls -hl
-    displayName: 'List Directory'
-
-  - script: |
-      curl -s ifconfig.io
-    displayName: 'Get Egress IP Address'
-
-  - script: |
-      cat /etc/os-release
-    displayName: 'Get OS Info'
+  - stage: Check agent egress IP
+    jobs:
+      - job:
+        steps:
+        - script: |
+            curl -s ifconfig.io
+          displayName: 'Get Egress IP Address'
+  
+  - stage: Check agent egress IP
+    jobs:
+      - job:
+        steps:
+        - script: |
+            cat /etc/os-release
+          displayName: 'Get OS Info'
