@@ -37,7 +37,7 @@ stages:
             curl -s ifconfig.io
           displayName: 'Get Egress IP Address'
   
-  - stage: Check agent egress IP
+  - stage: Check OS info
     jobs:
       - job:
         steps:
