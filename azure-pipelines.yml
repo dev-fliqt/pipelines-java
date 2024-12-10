@@ -21,8 +21,6 @@ resources:
 pool:
   name: ci-agents
   # vmImage: ubuntu-latest
-  
-container: cloud-tools
 
 stages:
   - stage: check
@@ -30,13 +28,15 @@ stages:
     jobs:
       - job:
         displayName: Check container images
+        container:
+          image: nginx
         steps:
         - script: |
             cat /etc/os-release
             ls -hl
-            which gcloud
-            which aws
-            which az
+            # which gcloud
+            # which aws
+            # which az
             
   # - stage: check
   #   displayName: Check Directory Struct
