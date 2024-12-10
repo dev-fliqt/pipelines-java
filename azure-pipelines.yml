@@ -6,17 +6,17 @@
 trigger:
 - main
 
-resources:
-  containers:
-  - container: cloud-tools
-    type: ACR
-    azureSubscription: diver
-    resourceGroup: DIVER
-    registry: diver.azurecr.io
-    repository: internal/docker-kubectl
-    trigger:
-      tags:
-        - v1.0
+# resources:
+#   containers:
+#   - container: cloud-tools
+#     type: ACR
+#     azureSubscription: diver
+#     resourceGroup: DIVER
+#     registry: diver.azurecr.io
+#     repository: internal/docker-kubectl
+#     trigger:
+#       tags:
+#         - v1.0
 
 pool:
   name: ci-agents
