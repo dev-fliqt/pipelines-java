@@ -27,16 +27,16 @@ stages:
     displayName: Check Directory Struct
     jobs:
       - job:
+        container:
+        image: diver.azurecr.io/internal/docker-kubectl:v1.0
         steps:
-        - script: echo |
-            echo $(resources.container.cloud-tools.type)
-            echo $(resources.container.cloud-tools.registry)
-            echo $(resources.container.cloud-tools.repository)
-            echo $(resources.container.cloud-tools.tag)
-            echo $(resources.container.cloud-tools.digest)
-            echo $(resources.container.cloud-tools.URI)
-            echo $(resources.container.cloud-tools.location)
-
+        - script: |
+            cat /etc/os-release
+            ls -hl
+            which gcloud
+            which aws
+            which az
+            
   # - stage: check
   #   displayName: Check Directory Struct
   #   jobs:
