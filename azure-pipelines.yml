@@ -8,8 +8,15 @@ trigger:
 
 resources:
   containers:
-    - container: cloud-tools
-      image: diver.azurecr.io/internal/docker-kubectl:v1.0
+  - container: cloud-tools
+    type: ACR
+    azureSubscription: diver
+    resourceGroup: DIVER
+    registry: diver.azurecr.io
+    repository: internal/docker-kubectl
+    trigger:
+      tags:
+        - v1.0
 
 pool:
   name: ci-agents
@@ -21,29 +28,43 @@ stages:
     jobs:
       - job:
         steps:
-        - script: |
-            echo "Hello, World!"
-          displayName: 'Print Hello World'
-      - job:
-        steps:
-        - script: |
-            ls -hl
-          displayName: 'List Directory'
+        - script: echo |
+            echo $(resources.container.cloud-tools.type)
+            echo $(resources.container.cloud-tools.registry)
+            echo $(resources.container.cloud-tools.repository)
+            echo $(resources.container.cloud-tools.tag)
+            echo $(resources.container.cloud-tools.digest)
+            echo $(resources.container.cloud-tools.URI)
+            echo $(resources.container.cloud-tools.location)
 
-  - stage: check2
-    displayName: Check agent egress IP
-    jobs:
-      - job:
-        steps:
-        - script: |
-            curl -s ifconfig.io
-          displayName: 'Get Egress IP Address'
+  # - stage: check
+  #   displayName: Check Directory Struct
+  #   jobs:
+  #     - job:
+  #       steps:
+  #       - script: |
+  #           echo "Hello, World!"
+  #         displayName: 'Print Hello World'
+  #     - job:
+  #       steps:
+  #       - script: |
+  #           ls -hl
+  #         displayName: 'List Directory'
+
+  # - stage: check2
+  #   displayName: Check agent egress IP
+  #   jobs:
+  #     - job:
+  #       steps:
+  #       - script: |
+  #           curl -s ifconfig.io
+  #         displayName: 'Get Egress IP Address'
   
-  - stage: check3
-    displayName: Check OS info
-    jobs:
-      - job:
-        steps:
-        - script: |
-            cat /etc/os-release
-          displayName: 'Get OS Info'
+  # - stage: check3
+  #   displayName: Check OS info
+  #   jobs:
+  #     - job:
+  #       steps:
+  #       - script: |
+  #           cat /etc/os-release
+  #         displayName: 'Get OS Info'
