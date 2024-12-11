@@ -23,7 +23,7 @@ stages:
   #           containerRegistry: ci-vmss-acr
   #           command: 'login'
   
-  - stage: check
+  - stage: login
     displayName: Check Environment
     jobs:
       - job:
