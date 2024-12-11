@@ -22,10 +22,15 @@ stages:
   #         inputs:
   #           containerRegistry: ci-vmss-acr
   #           command: 'login'
-  
+
   - stage: loginAzure
     displayName: Login Azure
     jobs:
+      - job:
+        steps:
+          - script: |
+              curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+            displayName: 'Egress IP'
       - job:
         displayName: login
         steps:
