@@ -11,17 +11,32 @@ pool:
   # vmImage: ubuntu-latest
 
 stages:
-  - stage: loginContainerRegister
-    displayName: Login Container Register
+  # - stage: loginContainerRegister
+  #   displayName: Login Container Register
+  #   jobs:
+  #     - job:
+  #       displayName: Login ACR
+  #       steps:
+  #       - task: Docker@2
+  #         displayName: Login to ACR
+  #         inputs:
+  #           containerRegistry: ci-vmss-acr
+  #           command: 'login'
+  
+  - stage: check
+    displayName: Check Environment
     jobs:
       - job:
-        displayName: Login ACR
+        displayName: Check container images
         steps:
-        - task: Docker@2
-          displayName: Login to ACR
-          inputs:
-            containerRegistry: ci-vmss-acr
-            command: 'login'
+          - task: AzureCLI@2
+            displayName: Login to ACR
+            inputs:
+              azureSubscription: ci-vmss-acr
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az acr login --name diver
             
   - stage: check
     displayName: Check Environment
@@ -31,23 +46,23 @@ stages:
         container:
           image: diver.azurecr.io/internal/docker-kubectl:v1.0
         steps:
-        - task: Docker@2
-          displayName: Login to ACR
-          inputs:
-            containerRegistry: ci-vmss-acr
-            command: 'login'
-        - task: DownloadSecureFile@1
-          name: googleArtifactRegistryKey
-          inputs:
-            secureFile: gke-artifact-registry-rw.json
-        - script: |
-            cat /etc/os-release
-            ls -hl
-            curl -s ifconfig.io
-            cat $(googleArtifactRegistryKey.secureFilePath)
-            # which gcloud
-            # which aws
-            # which az
+          - task: Docker@2
+            displayName: Login to ACR
+            inputs:
+              containerRegistry: ci-vmss-acr
+              command: 'login'
+          - task: DownloadSecureFile@1
+            name: googleArtifactRegistryKey
+            inputs:
+              secureFile: gke-artifact-registry-rw.json
+          - script: |
+              cat /etc/os-release
+              ls -hl
+              curl -s ifconfig.io
+              cat $(googleArtifactRegistryKey.secureFilePath)
+              # which gcloud
+              # which aws
+              # which az
             
 #  - stage: check2
 #    displayName: Check Directory Struct
