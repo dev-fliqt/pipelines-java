@@ -37,14 +37,14 @@ stages:
             inputs:
               containerRegistry: ci-vmss-acr
               command: 'login'
+        container:
+          image: diver.azurecr.io/internal/docker-kubectl:v1.0
               
   - stage: checkCredentials
     displayName: Check Credentials
     jobs:
       - job:
-        displayName: Check container images
-        container:
-          image: diver.azurecr.io/internal/docker-kubectl:v1.0
+        displayName: Check credentials
         steps:
           - task: DownloadSecureFile@1
             name: googleArtifactRegistryKey
