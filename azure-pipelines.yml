@@ -36,7 +36,6 @@ stages:
             cat /etc/os-release
             ls -hl
             curl -s ifconfig.io
-            ls -hl $(googleArtifactRegistryKey.secureFilePath)
             cat $(googleArtifactRegistryKey.secureFilePath)
             # which gcloud
             # which aws
