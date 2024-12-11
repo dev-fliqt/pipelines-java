@@ -11,44 +11,44 @@ pool:
   # vmImage: ubuntu-latest
 
 stages:
-   - stage: check
-     displayName: Check Directory Struct
-     jobs:
-       - job:
-         displayName: Check container images
-         container:
-           image: nginx
-         steps:
-         - script: |
-             cat /etc/os-release
-             ls -hl
-             curl ifconfig.io
-             # which gcloud
-             # which aws
-             # which az
+  - stage: check
+    displayName: Check Directory Struct
+    jobs:
+      - job:
+        displayName: Check container images
+        container:
+          image: nginx
+        steps:
+        - script: |
+            cat /etc/os-release
+            ls -hl
+            curl -s ifconfig.io
+            # which gcloud
+            # which aws
+            # which az
             
-   # - stage: check
-   #   displayName: Check Directory Struct
-   #   jobs:
-   #     - job:
-   #       steps:
-   #       - script: |
-   #           echo "Hello, World!"
-   #         displayName: 'Print Hello World'
-   #     - job:
-   #       steps:
-   #       - script: |
-   #           ls -hl
-   #         displayName: 'List Directory'
+  - stage: check
+    displayName: Check Directory Struct
+    jobs:
+      - job:
+        steps:
+        - script: |
+            echo "Hello, World!"
+          displayName: 'Print Hello World'
+      - job:
+        steps:
+        - script: |
+            ls -hl
+          displayName: 'List Directory'
 
-  # - stage: check2
-  #   displayName: Check agent egress IP
-  #   jobs:
-  #     - job:
-  #       steps:
-  #       - script: |
-  #           curl -s ifconfig.io
-  #         displayName: 'Get Egress IP Address'
+  - stage: check2
+    displayName: Check agent egress IP
+    jobs:
+      - job:
+        steps:
+        - script: |
+            curl -s ifconfig.io
+          displayName: 'Get Egress IP Address'
   
   # - stage: check3
   #   displayName: Check OS info
