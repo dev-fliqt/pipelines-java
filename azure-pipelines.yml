@@ -59,8 +59,14 @@ stages:
             inputs:
               secureFile: gke-artifact-registry-rw.json
           - script: |
-              cat $(googleArtifactRegistryKey.secureFilePath)
+              cat $(googleArtifactRegistryKey.secureFilePath) > auth.json
             displayName: 'Check Credentials'
+          - script: |
+              gcloud auth activate-service-account  --key-file auth.json --project diver-develop-app
+            displayName: 'Login gcloud'
+          - script: |
+              rm -f auth.json
+            displayName: 'Remove Credentials'
               
   - stage: checkTools
     displayName: Check Tools
