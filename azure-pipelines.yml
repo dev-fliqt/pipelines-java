@@ -37,8 +37,16 @@ stages:
             inputs:
               containerRegistry: ci-vmss-acr
               command: 'login'
-        container:
-          image: diver.azurecr.io/internal/docker-kubectl:v1.0
+          
+  - stage: pullImages
+    displayName: pull Images
+    jobs:
+      - job:
+        displayName: pull images
+        steps:
+          - script: |
+              docker pull diver.azurecr.io/internal/docker-kubectl:v1.0
+            displayName: 'pull images'
               
   - stage: checkCredentials
     displayName: Check Credentials
