@@ -11,6 +11,15 @@ pool:
   # vmImage: ubuntu-latest
 
 stages:
+  - stage: loginContainerRegister
+    displayName: Login Container Register
+    jobs:
+      - job:
+        displayName: Login ACR
+        steps:
+        - task: Docker@2
+          displayName: Login to ACR
+          inputs:
   - stage: check
     displayName: Check Directory Struct
     jobs:
@@ -27,6 +36,7 @@ stages:
             cat /etc/os-release
             ls -hl
             curl -s ifconfig.io
+            ls -hl $(googleArtifactRegistryKey.secureFilePath)
             cat $(googleArtifactRegistryKey.secureFilePath)
             # which gcloud
             # which aws
