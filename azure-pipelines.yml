@@ -30,7 +30,7 @@ stages:
         displayName: login
         steps:
           - task: AzureCLI@2
-            displayName: Login to ACR
+            displayName: Login to Azure
             inputs:
               azureSubscription: ci-vmss-azure-subscription
               scriptType: bash
@@ -104,6 +104,9 @@ stages:
               which gcloud
               which aws
               which az
+              which kustomize
+              which helm
+              which kubectl
             displayName: 'Check Tools'
       - job:
         steps:
