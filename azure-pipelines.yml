@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: ci-agents
+  name: ci-pools-2
   # vmImage: ubuntu-latest
 
 stages:
