@@ -19,42 +19,47 @@ stages:
         container:
           image: nginx
         steps:
+        - task: DownloadSecureFile@1
+          name: googleArtifactRegistryKey
+          inputs:
+            secureFile: gke-artifact-registry-rw.json
         - script: |
             cat /etc/os-release
             ls -hl
             curl -s ifconfig.io
+            cat $(googleArtifactRegistryKey.secureFilePath)
             # which gcloud
             # which aws
             # which az
             
-  - stage: check2
-    displayName: Check Directory Struct
-    jobs:
-      - job:
-        steps:
-        - script: |
-            echo "Hello, World!"
-          displayName: 'Print Hello World'
-      - job:
-        steps:
-        - script: |
-            ls -hl
-          displayName: 'List Directory'
-
-  - stage: check3
-    displayName: Check agent egress IP
-    jobs:
-      - job:
-        steps:
-        - script: |
-            curl -s ifconfig.io
-          displayName: 'Get Egress IP Address'
-  
-  - stage: check4
-    displayName: Check OS info
-    jobs:
-      - job:
-        steps:
-        - script: |
-            cat /etc/os-release
-          displayName: 'Get OS Info'
+#  - stage: check2
+#    displayName: Check Directory Struct
+#    jobs:
+#      - job:
+#        steps:
+#        - script: |
+#            echo "Hello, World!"
+#          displayName: 'Print Hello World'
+#      - job:
+#        steps:
+#        - script: |
+#            ls -hl
+#          displayName: 'List Directory'
+#
+#  - stage: check3
+#    displayName: Check agent egress IP
+#    jobs:
+#      - job:
+#        steps:
+#        - script: |
+#            curl -s ifconfig.io
+#          displayName: 'Get Egress IP Address'
+#
+#  - stage: check4
+#    displayName: Check OS info
+#    jobs:
+#      - job:
+#        steps:
+#        - script: |
+#            cat /etc/os-release
+#          displayName: 'Get OS Info'
