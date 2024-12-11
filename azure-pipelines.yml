@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: ci-pools-2
+  name: ci-pools
   # vmImage: ubuntu-latest
 
 stages:
@@ -23,11 +23,11 @@ stages:
   #           containerRegistry: ci-vmss-acr
   #           command: 'login'
   
-  - stage: login
-    displayName: Check Environment
+  - stage: login Azure
+    displayName: Login Azure
     jobs:
       - job:
-        displayName: Check container images
+        displayName: login
         steps:
           - script: |
               curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
@@ -40,8 +40,8 @@ stages:
               inlineScript: |
                 az acr login --name diver
             
-  - stage: check
-    displayName: Check Environment
+  - stage: loginACR
+    displayName: Login ACR
     jobs:
       - job:
         displayName: Check container images
@@ -53,47 +53,54 @@ stages:
             inputs:
               containerRegistry: ci-vmss-acr
               command: 'login'
+              
+  - stage: checkCredentials
+    displayName: Check Credentials
+    jobs:
+      - job:
+        steps:
           - task: DownloadSecureFile@1
             name: googleArtifactRegistryKey
             inputs:
               secureFile: gke-artifact-registry-rw.json
           - script: |
-              cat /etc/os-release
-              ls -hl
-              curl -s ifconfig.io
               cat $(googleArtifactRegistryKey.secureFilePath)
-              # which gcloud
-              # which aws
-              # which az
+            displayName: 'Check Credentials'
+              
+  - stage: checkTools
+    displayName: Check Tools
+    jobs:
+      - job:
+        steps:
+          - script: |
+              which gcloud
+              which aws
+              which az
+            displayName: 'Check Tools'
             
-#  - stage: check2
-#    displayName: Check Directory Struct
-#    jobs:
-#      - job:
-#        steps:
-#        - script: |
-#            echo "Hello, World!"
-#          displayName: 'Print Hello World'
-#      - job:
-#        steps:
-#        - script: |
-#            ls -hl
-#          displayName: 'List Directory'
-#
-#  - stage: check3
-#    displayName: Check agent egress IP
-#    jobs:
-#      - job:
-#        steps:
-#        - script: |
-#            curl -s ifconfig.io
-#          displayName: 'Get Egress IP Address'
-#
-#  - stage: check4
-#    displayName: Check OS info
-#    jobs:
-#      - job:
-#        steps:
-#        - script: |
-#            cat /etc/os-release
-#          displayName: 'Get OS Info'
+  - stage: checkDirectoryStruct
+    displayName: Check Directory Struct
+    jobs:
+      - job:
+        steps:
+        - script: |
+            ls -hl
+          displayName: 'List Directory'
+
+  - stage: checkAgentEgressIP
+    displayName: Check agent egress IP
+    jobs:
+      - job:
+        steps:
+        - script: |
+            curl -s ifconfig.io
+          displayName: 'Get Egress IP Address'
+
+  - stage: checkOSInfo
+    displayName: Check OS info
+    jobs:
+      - job:
+        steps:
+        - script: |
+            cat /etc/os-release
+          displayName: 'Get OS Info'
