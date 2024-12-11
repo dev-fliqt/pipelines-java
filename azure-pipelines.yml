@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: demo-pools-4
+  name: demo-pool-4
   # vmImage: ubuntu-latest
 
 stages:
