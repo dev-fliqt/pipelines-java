@@ -42,11 +42,11 @@ stages:
           - script: |
               curl -s ifconfig.io
             displayName: 'Egress IP'
-      - job:
-        steps:
-          - script: |
-              cat /etc/os-release
-            displayName: 'OS Info'
+      # - job:
+      #   steps:
+      #     - script: |
+      #         cat /etc/os-release
+      #       displayName: 'OS Info'
             
   - stage: loginACR
     displayName: Login ACR
@@ -66,11 +66,11 @@ stages:
           - script: |
               curl -s ifconfig.io
             displayName: 'Egress IP'
-      - job:
-        steps:
-          - script: |
-              cat /etc/os-release
-            displayName: 'OS Info'
+      # - job:
+      #   steps:
+      #     - script: |
+      #         cat /etc/os-release
+      #       displayName: 'OS Info'
               
   - stage: checkCredentials
     displayName: Check Credentials
@@ -89,11 +89,11 @@ stages:
           - script: |
               curl -s ifconfig.io
             displayName: 'Egress IP'
-      - job:
-        steps:
-          - script: |
-              cat /etc/os-release
-            displayName: 'OS Info'
+      # - job:
+      #   steps:
+      #     - script: |
+      #         cat /etc/os-release
+      #       displayName: 'OS Info'
               
   - stage: checkTools
     displayName: Check Tools
@@ -110,11 +110,11 @@ stages:
           - script: |
               curl -s ifconfig.io
             displayName: 'Egress IP'
-      - job:
-        steps:
-          - script: |
-              cat /etc/os-release
-            displayName: 'OS Info'
+      # - job:
+      #   steps:
+      #     - script: |
+      #         cat /etc/os-release
+      #       displayName: 'OS Info'
             
   - stage: checkDirectoryStruct
     displayName: Check Directory Struct
