@@ -17,7 +17,7 @@ stages:
       - job:
         displayName: Check container images
         container:
-          image: nginx
+          image: diver.azurecr.io/internal/docker-kubectl:v1.0
         steps:
         - task: DownloadSecureFile@1
           name: googleArtifactRegistryKey
