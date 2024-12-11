@@ -37,16 +37,6 @@ stages:
               scriptLocation: inlineScript
               inlineScript: |
                 az acr login --name diver
-      - job:
-        steps:
-          - script: |
-              curl -s ifconfig.io
-            displayName: 'Egress IP'
-      - job:
-        steps:
-          - script: |
-              cat /etc/os-release
-            displayName: 'OS Info'
             
   - stage: loginACR
     displayName: Login ACR
@@ -61,16 +51,6 @@ stages:
             inputs:
               containerRegistry: ci-vmss-acr
               command: 'login'
-      - job:
-        steps:
-          - script: |
-              curl -s ifconfig.io
-            displayName: 'Egress IP'
-      - job:
-        steps:
-          - script: |
-              cat /etc/os-release
-            displayName: 'OS Info'
               
   - stage: checkCredentials
     displayName: Check Credentials
@@ -84,16 +64,6 @@ stages:
           - script: |
               cat $(googleArtifactRegistryKey.secureFilePath)
             displayName: 'Check Credentials'
-      - job:
-        steps:
-          - script: |
-              curl -s ifconfig.io
-            displayName: 'Egress IP'
-      - job:
-        steps:
-          - script: |
-              cat /etc/os-release
-            displayName: 'OS Info'
               
   - stage: checkTools
     displayName: Check Tools
@@ -107,17 +77,8 @@ stages:
               which kustomize
               which helm
               which kubectl
+              gcloud version
             displayName: 'Check Tools'
-      - job:
-        steps:
-          - script: |
-              curl -s ifconfig.io
-            displayName: 'Egress IP'
-      - job:
-        steps:
-          - script: |
-              cat /etc/os-release
-            displayName: 'OS Info'
             
   - stage: checkDirectoryStruct
     displayName: Check Directory Struct
