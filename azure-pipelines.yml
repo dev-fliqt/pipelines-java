@@ -23,7 +23,7 @@ stages:
   #           containerRegistry: ci-vmss-acr
   #           command: 'login'
   
-  - stage: login Azure
+  - stage: loginAzure
     displayName: Login Azure
     jobs:
       - job:
