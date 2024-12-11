@@ -50,11 +50,11 @@ stages:
             curl -s ifconfig.io
           displayName: 'Get Egress IP Address'
   
-  # - stage: check4
-  #   displayName: Check OS info
-  #   jobs:
-  #     - job:
-  #       steps:
-  #       - script: |
-  #           cat /etc/os-release
-  #         displayName: 'Get OS Info'
+  - stage: check4
+    displayName: Check OS info
+    jobs:
+      - job:
+        steps:
+        - script: |
+            cat /etc/os-release
+          displayName: 'Get OS Info'
