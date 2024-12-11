@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: demo-pools
+  name: demo-pools-2
   # vmImage: ubuntu-latest
 
 stages:
@@ -22,14 +22,6 @@ stages:
   #         inputs:
   #           containerRegistry: ci-vmss-acr
   #           command: 'login'
-  
-  - stage: installAzureCli
-    displayName: install Azure Cli
-    jobs:
-      - job:
-        steps:
-          - script: |
-              curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
   - stage: loginAzure
     displayName: Login Azure
@@ -50,11 +42,11 @@ stages:
           - script: |
               curl -s ifconfig.io
             displayName: 'Egress IP'
-      # - job:
-      #   steps:
-      #     - script: |
-      #         cat /etc/os-release
-      #       displayName: 'OS Info'
+      - job:
+        steps:
+          - script: |
+              cat /etc/os-release
+            displayName: 'OS Info'
             
   - stage: loginACR
     displayName: Login ACR
@@ -74,11 +66,11 @@ stages:
           - script: |
               curl -s ifconfig.io
             displayName: 'Egress IP'
-      # - job:
-      #   steps:
-      #     - script: |
-      #         cat /etc/os-release
-      #       displayName: 'OS Info'
+      - job:
+        steps:
+          - script: |
+              cat /etc/os-release
+            displayName: 'OS Info'
               
   - stage: checkCredentials
     displayName: Check Credentials
@@ -97,11 +89,11 @@ stages:
           - script: |
               curl -s ifconfig.io
             displayName: 'Egress IP'
-      # - job:
-      #   steps:
-      #     - script: |
-      #         cat /etc/os-release
-      #       displayName: 'OS Info'
+      - job:
+        steps:
+          - script: |
+              cat /etc/os-release
+            displayName: 'OS Info'
               
   - stage: checkTools
     displayName: Check Tools
@@ -118,11 +110,11 @@ stages:
           - script: |
               curl -s ifconfig.io
             displayName: 'Egress IP'
-      # - job:
-      #   steps:
-      #     - script: |
-      #         cat /etc/os-release
-      #       displayName: 'OS Info'
+      - job:
+        steps:
+          - script: |
+              cat /etc/os-release
+            displayName: 'OS Info'
             
   - stage: checkDirectoryStruct
     displayName: Check Directory Struct
