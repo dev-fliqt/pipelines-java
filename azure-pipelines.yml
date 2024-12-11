@@ -27,7 +27,7 @@ stages:
             # which aws
             # which az
             
-  - stage: check
+  - stage: check2
     displayName: Check Directory Struct
     jobs:
       - job:
@@ -41,7 +41,7 @@ stages:
             ls -hl
           displayName: 'List Directory'
 
-  - stage: check2
+  - stage: check3
     displayName: Check agent egress IP
     jobs:
       - job:
@@ -50,7 +50,7 @@ stages:
             curl -s ifconfig.io
           displayName: 'Get Egress IP Address'
   
-  # - stage: check3
+  # - stage: check4
   #   displayName: Check OS info
   #   jobs:
   #     - job:
