@@ -29,6 +29,8 @@ stages:
       - job:
         displayName: Check container images
         steps:
+          - script: |
+              curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
           - task: AzureCLI@2
             displayName: Login to ACR
             inputs:
