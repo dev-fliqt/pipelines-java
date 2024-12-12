@@ -3,43 +3,102 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
-trigger:
-- main
+parameters:
+  - name: branch
+    displayName: BRANCH
+    type: string
+    default: main
+  - name: revision
+    displayName: REVISION
+    type: string
+    default: HEAD
+  - name: action
+    displayName: ACTION
+    type: string
+    default: push-image
+    values:
+      - push-image
+      - deploy
+      - build-and-deploy
+  - name: appName
+    displayName: APP_NAME
+    type: string
+    default: "notSupport"
+    values:
+      - all
+      - admin
+      - api
+  - name: environment
+    displayName: Environment
+    type: string
+    default: "develop"
+    values:
+      - develop
+      - stage
+      - production
+
+trigger: none
+# - main
 
 pool:
   name: demo-pool-4
   # vmImage: ubuntu-latest
 
 stages:
-  - stage: loginAzure
-    displayName: Login Azure
-    jobs:
-      - job:
-        displayName: login
-        steps:
-          - task: AzureCLI@2
-            displayName: Login to Azure
-            inputs:
-              azureSubscription: ci-vmss-azure-subscription
-              scriptType: bash
-              scriptLocation: inlineScript
-              inlineScript: |
-                az acr login --name diver
-            
   - stage: loginACR
     displayName: Login ACR
     jobs:
       - job:
         displayName: Check container images
         steps:
-          - task: Docker@2
-            displayName: Login to ACR
-            inputs:
-              containerRegistry: ci-vmss-acr
-              command: 'login'
           - script: |
-              docker pull diver.azurecr.io/internal/docker-kubectl:v1.0
-            displayName: Pull Docker Image
+              echo ${{ parameters.branch }}
+            displayName: branch
+          - script: |
+              echo ${{ parameters.revision }}
+            displayName: revision
+          - script: |
+              echo ${{ parameters.action }}
+            displayName: action
+          - script: |
+              echo ${{ parameters.appName }}
+            displayName: appName
+          - script: |
+              echo ${{ parameters.environment }}
+            displayName: environment
+          - script: |
+              echo $(Build.BuildNumber)
+            displayName: environment
+
+  # - stage: loginAzure
+  #   displayName: Login Azure
+  #   jobs:
+  #     - job:
+  #       displayName: login
+  #       steps:
+  #         - task: AzureCLI@2
+  #           displayName: Login to Azure
+  #           inputs:
+  #             azureSubscription: ci-vmss-azure-subscription
+  #             scriptType: bash
+  #             scriptLocation: inlineScript
+  #             inlineScript: |
+  #               az acr login --name diver
+            
+  # - stage: loginACR
+  #   displayName: Login ACR
+  #   jobs:
+  #     - job:
+  #       displayName: Check container images
+  #       steps:
+  #         - task: Docker@2
+  #           displayName: Login to ACR
+  #           inputs:
+  #             containerRegistry: ci-vmss-acr
+  #             command: 'login'
+  #         - script: |
+  #             docker pull diver.azurecr.io/internal/docker-kubectl:v1.0
+  #           displayName: Pull Docker Image
           
   # - stage: pullImages
   #   displayName: pull Images
@@ -51,49 +110,49 @@ stages:
   #             docker pull diver.azurecr.io/internal/docker-kubectl:v1.0
   #           displayName: 'pull images'
               
-  - stage: checkCredentials
-    displayName: Check Credentials
-    jobs:
-      - job:
-        displayName: Check credentials
-        steps:
-          - task: DownloadSecureFile@1
-            name: googleArtifactRegistryKey
-            inputs:
-              secureFile: gke-artifact-registry-rw.json
-          - script: |
-              cat $(googleArtifactRegistryKey.secureFilePath) > auth.json
-            displayName: 'Check Credentials'
-          - script: |
-              gcloud auth activate-service-account  --key-file auth.json --project diver-develop-app
-            displayName: 'Login gcloud'
-          - script: |
-              rm -f auth.json
-            displayName: 'Remove Credentials'
+  # - stage: checkCredentials
+  #   displayName: Check Credentials
+  #   jobs:
+  #     - job:
+  #       displayName: Check credentials
+  #       steps:
+  #         - task: DownloadSecureFile@1
+  #           name: googleArtifactRegistryKey
+  #           inputs:
+  #             secureFile: gke-artifact-registry-rw.json
+  #         - script: |
+  #             cat $(googleArtifactRegistryKey.secureFilePath) > auth.json
+  #           displayName: 'Check Credentials'
+  #         - script: |
+  #             gcloud auth activate-service-account  --key-file auth.json --project diver-develop-app
+  #           displayName: 'Login gcloud'
+  #         - script: |
+  #             rm -f auth.json
+  #           displayName: 'Remove Credentials'
               
-  - stage: checkTools
-    displayName: Check Tools
-    jobs:
-      - job:
-        steps:
-          - script: |
-              which gcloud
-              which aws
-              which az
-              which kustomize
-              which helm
-              which kubectl
-              gcloud version
-            displayName: 'Check Tools'
+  # - stage: checkTools
+  #   displayName: Check Tools
+  #   jobs:
+  #     - job:
+  #       steps:
+  #         - script: |
+  #             which gcloud
+  #             which aws
+  #             which az
+  #             which kustomize
+  #             which helm
+  #             which kubectl
+  #             gcloud version
+  #           displayName: 'Check Tools'
             
-  - stage: checkDirectoryStruct
-    displayName: Check Directory Struct
-    jobs:
-      - job:
-        steps:
-        - script: |
-            ls -hl
-          displayName: 'List Directory'
+  # - stage: checkDirectoryStruct
+  #   displayName: Check Directory Struct
+  #   jobs:
+  #     - job:
+  #       steps:
+  #       - script: |
+  #           ls -hl
+  #         displayName: 'List Directory'
 
   # - stage: checkAgentEgressIP
   #   displayName: Check agent egress IP
