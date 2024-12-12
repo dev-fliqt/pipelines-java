@@ -87,7 +87,7 @@ stages:
             displayName: Build Container Images
             condition: |
               or(
-                eq(parameters.action, 'build'),
+                eq(parameters.action, 'push-image'),
                 eq(parameters.action, 'build-and-deploy'),
               )
           - script: |
