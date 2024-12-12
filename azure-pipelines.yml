@@ -68,7 +68,36 @@ stages:
             displayName: environment
           - script: |
               echo $(Build.BuildNumber)
-            displayName: environment
+            displayName: buildNumber
+            
+  - stage: build
+    displayName: Build Code
+    jobs:
+      - job:
+        displayName: Build code
+        steps:
+          - task: Docker@2
+            displayName: Login to GAR
+            inputs:
+              containerRegistry: ci-vmss-gar
+              command: 'login'
+          - script: |
+              docker pull \
+                us-west1-docker.pkg.dev/diver-develop-app/application/blockscout/index:0694bf21ae9224f6a1f1e041d08b18fca989c108
+            displayName: Build Container Images
+            condition: |
+              or(
+                eq(parameters.action, 'build'),
+                eq(parameters.action, 'build-and-deploy'),
+              )
+          - script: |
+              echo ${{ parameters.action }}
+            displayName: Build Container Images
+            condition: |
+              or(
+                eq(parameters.action, 'deploy'),
+                eq(parameters.action, 'build-and-deploy'),
+              )
 
   # - stage: loginAzure
   #   displayName: Login Azure
