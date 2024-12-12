@@ -88,7 +88,7 @@ stages:
             condition: |
               or(
                 eq(parameters.action, 'push-image'),
-                eq(parameters.action, 'build-and-deploy'),
+                eq(parameters.action, 'build-and-deploy')
               )
           - script: |
               echo ${{ parameters.action }}
@@ -96,7 +96,7 @@ stages:
             condition: |
               or(
                 eq(parameters.action, 'deploy'),
-                eq(parameters.action, 'build-and-deploy'),
+                eq(parameters.action, 'build-and-deploy')
               )
 
   # - stage: loginAzure
