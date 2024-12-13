@@ -42,8 +42,8 @@ trigger: none
 
 pool:
   name: ci-agent-gke-pools
-  demands:
-    - Agent.Name -equals ip-10-4-17-201
+  # demands:
+  #   - Agent.Name -equals ip-10-4-17-201
   # vmImage: ubuntu-latest
 
 stages:
