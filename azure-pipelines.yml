@@ -42,6 +42,8 @@ trigger: none
 
 pool:
   name: ci-agent-gke-pools
+  demands:
+    - Agent.Name -equals ip-10-4-17-201
   # vmImage: ubuntu-latest
 
 stages:
@@ -49,7 +51,7 @@ stages:
     displayName: Check Environment
     jobs:
       - job:
-        displayName: Check container images
+        displayName: print environment info
         steps:
           - script: |
               echo ${{ parameters.branch }}
