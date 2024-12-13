@@ -41,12 +41,12 @@ trigger: none
 # - main
 
 pool:
-  name: demo-pool-4
+  name: ci-agent-gke-pools
   # vmImage: ubuntu-latest
 
 stages:
-  - stage: loginACR
-    displayName: Login ACR
+  - stage: checkEnvironment
+    displayName: Check Environment
     jobs:
       - job:
         displayName: Check container images
