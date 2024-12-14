@@ -3,6 +3,9 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
+trigger: none
+# - main
+
 parameters:
   - name: branch
     displayName: BRANCH
@@ -37,69 +40,81 @@ parameters:
       - stage
       - production
 
-trigger: none
-# - main
-
 pool:
   name: ci-agent-gke-pools
   demands:
     - Agent.Name -equals ip-10-4-17-201
   # vmImage: ubuntu-latest
-
+  
+variables:
+  - group: ${{ format('{0}-variable-group', parameters.environment) }}
+  
 stages:
-  - stage: checkEnvironment
-    displayName: Check Environment
+  - stage: variables
+    displayName: Environment Variables
     jobs:
       - job:
-        displayName: print environment info
+        displayName: environment
         steps:
           - script: |
-              echo ${{ parameters.branch }}
-            displayName: branch
-          - script: |
-              echo ${{ parameters.revision }}
-            displayName: revision
-          - script: |
-              echo ${{ parameters.action }}
-            displayName: action
-          - script: |
-              echo ${{ parameters.appName }}
-            displayName: appName
-          - script: |
-              echo ${{ parameters.environment }}
-            displayName: environment
-          - script: |
-              echo $(Build.BuildNumber)
-            displayName: buildNumber
+              echo $(foo)
+              echo $(foo2)
+              echo $(foo3)
+            displayName: Show environment
+
+  # - stage: checkEnvironment
+  #   displayName: Check Environment
+  #   jobs:
+  #     - job:
+  #       displayName: print environment info
+  #       steps:
+  #         - script: |
+  #             echo ${{ parameters.branch }}
+  #           displayName: branch
+  #         - script: |
+  #             echo ${{ parameters.revision }}
+  #           displayName: revision
+  #         - script: |
+  #             echo ${{ parameters.action }}
+  #           displayName: action
+  #         - script: |
+  #             echo ${{ parameters.appName }}
+  #           displayName: appName
+  #         - script: |
+  #             echo ${{ parameters.environment }}
+  #           displayName: environment
+  #         - script: |
+  #             echo $(Build.BuildNumber)
+  #           displayName: buildNumber
             
-  - stage: build
-    displayName: Build Code
-    jobs:
-      - job:
-        displayName: Build code
-        steps:
-          - task: Docker@2
-            displayName: Login to GAR
-            inputs:
-              containerRegistry: ci-vmss-gar
-              command: 'login'
-          - script: |
-              docker pull \
-                us-west1-docker.pkg.dev/diver-develop-app/application/blockscout/index:0694bf21ae9224f6a1f1e041d08b18fca989c108
-            displayName: Build Container Images
-            condition: |
-              or(
-                ${{ eq(parameters.action, 'push-image') }},
-                ${{ eq(parameters.action, 'build-and-deploy') }}
-              )
-          - script: |
-              echo ${{ parameters.action }}
-            displayName: Build Container Images
-            condition: |
-              or(
-                ${{ eq(parameters.action, 'deploy') }},
-                ${{ eq(parameters.action, 'build-and-deploy') }}
-              )
+  # - stage: build
+  #   displayName: Build Code
+  #   jobs:
+  #     - job:
+  #       displayName: Build code
+  #       steps:
+  #         - task: Docker@2
+  #           displayName: Login to GAR
+  #           inputs:
+  #             containerRegistry: ci-vmss-gar
+  #             command: 'login'
+  #         - script: |
+  #             docker pull \
+  #               us-west1-docker.pkg.dev/diver-develop-app/application/blockscout/index:0694bf21ae9224f6a1f1e041d08b18fca989c108
+  #           displayName: Build Container Images
+  #           condition: |
+  #             or(
+  #               ${{ eq(parameters.action, 'push-image') }},
+  #               ${{ eq(parameters.action, 'build-and-deploy') }}
+  #             )
+  #         - script: |
+  #             echo ${{ parameters.action }}
+  #           displayName: Build Container Images
+  #           condition: |
+  #             or(
+  #               ${{ eq(parameters.action, 'deploy') }},
+  #               ${{ eq(parameters.action, 'build-and-deploy') }}
+  #             )
 
   # - stage: loginAzure
   #   displayName: Login Azure
