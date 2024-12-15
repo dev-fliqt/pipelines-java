@@ -26,7 +26,7 @@ parameters:
   - name: appName
     displayName: APP_NAME
     type: string
-    default: "notSupport"
+    default: "admin"
     values:
       - all
       - admin
@@ -48,6 +48,10 @@ pool:
   
 variables:
   - group: ${{ format('{0}-variable-group', parameters.environment) }}
+  - name: git_branch
+    value: $(Build.SourceBranchName)
+  - name: git_commit
+    value: $(Build.SourceVersion)
   
 stages:
   - stage: variables
@@ -60,6 +64,8 @@ stages:
               echo $(foo)
               echo $(foo2)
               echo $(foo3)
+              echo $(git_branch)
+              echo $(git_commit)
             displayName: Show environment
 
   # - stage: checkEnvironment
