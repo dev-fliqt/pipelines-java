@@ -41,9 +41,9 @@ parameters:
       - production
 
 pool:
-  name: ci-agent-gke-pools
-  demands:
-    - Agent.Name -equals ip-10-4-17-201
+  name: ci-agent-pools
+  # demands:
+  #   - Agent.Name -equals ip-10-4-17-201
   # vmImage: ubuntu-latest
   
 variables:
